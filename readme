@@ -1,0 +1,30 @@
+Pre-requisite:
+- Python3.10 is mandatory
+
+About:
+- Running TF-M on rpi_pico2(rp2350) along with non-secure application example.
+
+Steps:
+- make --> this takes care of setting up required repo(trusted-firmware-m,pico-sdk,openocd) and venv.
+- make flash --> uses openocd
+
+
+Commands used for building binaries spe and nspe binaries for rp2350:
+------ SPE --------
+cmake -S /Users/bharathkammara/Desktop/rpi_pico2/tfm_s_ns/trusted-firmware-m \
+-B build/spe \
+-DTFM_PLATFORM=rpi/rp2350 \
+-DTFM_PROFILE=profile_medium \
+-DMCUBOOT_IMAGE_NUMBER=1 \
+-DTFM_BL2_LOG_LEVEL=LOG_LEVEL_VERBOSE \
+-DLOG_LEVEL=LOG_LEVEL_DEBUG \
+-DPython3_EXECUTABLE=/Users/bharathkammara/Desktop/rpi_pico2/cortex_m33_tf-m/venv/bin/python3 \
+cmake --build build/spe -- install
+
+------ NSPE --------
+cmake -S /Users/bharathkammara/Desktop/rpi_pico2/tfm_s_ns/tf-m-extras/examples/tf-m-example-ns-app \
+-B build/nspe \
+-DCONFIG_SPE_PATH=/Users/bharathkammara/Desktop/rpi_pico2/tfm_s_ns/build/spe/api_ns \
+-DPython3_EXECUTABLE=/Users/bharathkammara/Desktop/rpi_pico2/cortex_m33_tf-m/venv/bin/python3 \
+-DFETCHCONTENT_SOURCE_DIR_PICO_SDK=/Users/bharathkammara/Desktop/rpi_pico2/tfm_s_ns/pico-sdk \
+cmake --build build/nspe
