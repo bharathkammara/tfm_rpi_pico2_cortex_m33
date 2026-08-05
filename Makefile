@@ -60,7 +60,8 @@ flash:
 
 clean:
 	@echo "--- Cleaning All Projects ---"
-	@rm -rf $(ROOT_DIR)/build
+	cmake --build $(ROOT_DIR)/build/spe/ -- clean
+	cmake --build $(ROOT_DIR)/build/nspe/ -- clean
 
 reset:
 	@echo "--- Resetting Target ---"
